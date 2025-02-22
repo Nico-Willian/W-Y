@@ -1,7 +1,7 @@
 import React from 'react';
 import Slider from 'react-slick';
 import styled, { keyframes } from 'styled-components';
-import { differenceInYears, differenceInMonths, differenceInDays } from 'date-fns';
+import { intervalToDuration } from 'date-fns';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import photo1 from '../src/assets/F1.png';
@@ -124,9 +124,11 @@ function App() {
   const startDate = new Date('2024-12-25'); 
   const now = new Date();
 
-  const years = differenceInYears(now, startDate);
-  const months = differenceInMonths(now, startDate) % 12;
-  const days = differenceInDays(now, startDate) % 30;
+  const duration = intervalToDuration({ start: startDate, end: now });
+  let { years, months, days } = duration;
+  if (days === undefined) {
+    days = 0;
+  }
 
   const settings = {
     dots: false,
